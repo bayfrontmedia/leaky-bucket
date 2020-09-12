@@ -243,7 +243,7 @@ class Bucket
      * @return float
      */
 
-    public function getLeakRate(): float
+    public function getLeakPerSecond(): float
     {
         return $this->settings['leak'] / 60;
     }
@@ -256,7 +256,7 @@ class Bucket
 
     public function getSecondsPerDrop(): float
     {
-        return 1 / $this->getLeakRate();
+        return 1 / $this->getLeakPerSecond();
     }
 
     /**
@@ -344,7 +344,7 @@ class Bucket
 
         $elapsed_secs = $now - $this->bucket['time']; // Seconds since last update
 
-        $leakage = $elapsed_secs * $this->getLeakRate(); // How much the bucket needs to leak
+        $leakage = $elapsed_secs * $this->getLeakPerSecond(); // How much the bucket needs to leak
 
         if ($leakage > $this->bucket['drops']) { // Do not leak under 0
 

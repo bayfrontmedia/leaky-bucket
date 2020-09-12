@@ -126,7 +126,7 @@ Also, the `save()` method must be used to store the current bucket settings for 
 - [getCapacityUsed](#getcapacityused)
 - [getCapacityRemaining](#getcapacityremaining)
 - [hasCapacity](#hascapacity)
-- [getLeakRate](#getleakrate)
+- [getLeakPerSecond](#getleakpersecond)
 - [getSecondsPerDrop](#getsecondsperdrop)
 - [touch](#touch)
 - [getLastTime](#getlasttime)
@@ -388,7 +388,7 @@ if ($bucket->hasCapacity(5)) {
 
 <hr />
 
-### getLeakRate
+### getLeakPerSecond
 
 **Description:**
 
@@ -405,7 +405,7 @@ Returns the number of drops per second the bucket will leak.
 **Example:**
 
 ```
-echo $bucket->getLeakRate();
+echo $bucket->getLeakPerSecond();
 ```
 
 <hr />
