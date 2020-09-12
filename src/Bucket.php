@@ -260,7 +260,13 @@ class Bucket
     }
 
     /**
-     * Update the bucket's timestamp.
+     * Manually update the bucket's timestamp.
+     *
+     * The bucket's timestamp is automatically updated when any of the following methods are called:
+     * - fill
+     * - leak
+     * - spill
+     * - dump
      *
      * @return self
      */
@@ -293,7 +299,7 @@ class Bucket
     /**
      * Fills the bucket with a given number of drops.
      *
-     * If not allowed to overflow and the bucket does not have the needed capacity,
+     * If not allowed to overflow and the bucket does not have the required capacity,
      * a BucketException will be thrown. Otherwise, the bucket will be allowed to overflow.
      *
      * @param int $drops

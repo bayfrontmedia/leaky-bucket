@@ -82,6 +82,10 @@ Once your adapter has been created, it can be used with Leaky Bucket.
 In addition, an array containing keys defining the bucket structure should be passed to the constructor.
 
 ```
+use Bayfront\LeakyBucket\AdapterException;
+use Bayfront\LeakyBucket\BucketException;
+use Bayfront\LeakyBucket\Bucket;
+
 // Create/retrieve a bucket with a given ID
 
 try {
@@ -106,8 +110,9 @@ try {
 }
 ```
 
+**NOTE:**
 Be sure to `leak()` the bucket before attempting to do any calculations regarding its capacity.
-Also, the `save()` method must be used to store the current bucket for future use.
+Also, the `save()` method must be used to store the current bucket settings for future use.
 
 ### Public methods
 
@@ -431,7 +436,14 @@ echo $bucket->getSecondsPerDrop();
 
 **Description:**
 
-Update the bucket's timestamp.
+Manually update the bucket's timestamp.
+
+The bucket's timestamp is automatically updated when any of the following methods are called:
+
+- [fill](#fill)
+- [leak](#leak)
+- [spill](#spill)
+- [dump](#dump)
 
 **Parameters:**
 
@@ -477,7 +489,7 @@ echo $bucket->getLastTime();
 
 Fills the bucket with a given number of drops.
 
-If not allowed to overflow, and the bucket does not have the needed capacity,
+If not allowed to overflow, and the bucket does not have the required capacity,
 a `Bayfront\LeakyBucket\BucketException` will be thrown. 
 Otherwise, the bucket will be allowed to overflow.
 
