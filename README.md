@@ -101,12 +101,18 @@ try {
 
 // Work with the bucket
 
-try {
+$bucket->leak();
 
-    $bucket->fill()->save();
+if ($bucket->hasCapacity()) {
 
-} catch (AdapterException $e) {
-    die($e->getMessage());
+    try {
+
+        $bucket->fill()->save();
+
+    } catch (AdapterException $e) {
+        die($e->getMessage());
+    }
+
 }
 ```
 
