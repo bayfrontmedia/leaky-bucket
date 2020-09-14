@@ -34,11 +34,9 @@ class PDO implements AdapterInterface
 
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // Throw exceptions
 
-        $this->pdo = $pdo;
-
         try {
 
-            $query = $this->pdo->prepare("CREATE TABLE IF NOT EXISTS $table (`id` varchar(255) NOT NULL PRIMARY KEY, `contents` text NOT NULL)");
+            $query = $pdo->prepare("CREATE TABLE IF NOT EXISTS $table (`id` varchar(255) NOT NULL PRIMARY KEY, `contents` text NOT NULL)");
 
             $query->execute();
 
@@ -47,6 +45,8 @@ class PDO implements AdapterInterface
             throw new AdapterException($e->getMessage(), 0, $e);
 
         }
+
+        $this->pdo = $pdo;
 
         $this->table = $table;
     }

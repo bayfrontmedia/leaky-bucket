@@ -12,6 +12,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities
 
+## [1.0.1] - 2020.09.13
+
+### Fixed
+
+- Updated PDO adapter from referencing `$this->pdo` from within the constructor, 
+as it can return `NULL` under certain circumstances.
+
 ## [1.0.0] - 2020.09.11
 
 ### Added
