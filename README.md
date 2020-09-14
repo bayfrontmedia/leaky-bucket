@@ -156,7 +156,7 @@ Checks if this bucket ID already exists in storage.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -180,7 +180,7 @@ Saves the bucket.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -212,7 +212,7 @@ Returns entire bucket contents.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -234,7 +234,7 @@ Reset all bucket information and data.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -256,7 +256,7 @@ Resets bucket and deletes the file in storage.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -288,7 +288,7 @@ Checks if bucket is full.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -312,7 +312,7 @@ Returns the total bucket capacity.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -334,7 +334,7 @@ Returns the number of drops in the bucket.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
@@ -356,7 +356,7 @@ Returns the remaining bucket capacity.
 
 **Parameters:**
 
-- (None)
+- None
 
 **Returns:**
 
