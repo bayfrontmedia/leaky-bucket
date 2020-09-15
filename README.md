@@ -618,11 +618,11 @@ $bucket->dump();
 
 **Description:**
 
-Checks if this bucket contains any additional data.
+Checks if this bucket contains any additional data, or a specific key in dot notation.
 
 **Parameters:**
 
-- None
+- `$key = NULL` (string|null): If `NULL`, checks if any additional data exists
 
 **Returns:**
 
@@ -631,7 +631,7 @@ Checks if this bucket contains any additional data.
 **Example:**
 
 ```
-if ($bucket->hasData()) {
+if ($bucket->hasData('client_id')) {
     // Do something
 }
 ```
@@ -642,11 +642,12 @@ if ($bucket->hasData()) {
 
 **Description:**
 
-Sets additional data for this bucket.
+Sets additional data for this bucket in dot notation.
 
 **Parameters:**
 
-- `$data` (array)
+- `$key` (string)
+- `$value` (mixed)
 
 **Returns:**
 
@@ -655,9 +656,7 @@ Sets additional data for this bucket.
 **Example:**
 
 ```
-$bucket->setData([
-    'client_id' => 45
-]);
+$bucket->setData('client_id', 5);
 ```
 
 <hr />
@@ -666,20 +665,21 @@ $bucket->setData([
 
 **Description:**
 
-Returns this bucket's additional data, or empty array if not existing.
+Returns this bucket's additional data key in dot notation, or an optional default value if not found.
 
 **Parameters:**
 
-- None
+- `$key = NULL` (string|null): Returns the entire data array when `NULL`
+- `$default = NULL` (mixed)
 
 **Returns:**
 
-- (array)
+- (mixed)
 
 **Example:**
 
 ```
-$data = $bucket->getData();
+$client_id = $bucket->getData('client_id');
 ```
 
 <hr />
@@ -688,11 +688,11 @@ $data = $bucket->getData();
 
 **Description:**
 
-Removes all additional data for this bucket.
+Removes additional data key in dot notation for this bucket.
 
 **Parameters:**
 
-- None
+- `$key = NULL` (string|null): Removes the entire data array when `NULL`
 
 **Returns:**
 
@@ -701,5 +701,5 @@ Removes all additional data for this bucket.
 **Example:**
 
 ```
-$bucket->forgetData();
+$bucket->forgetData('client_id');
 ```

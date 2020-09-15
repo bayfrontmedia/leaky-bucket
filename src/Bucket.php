@@ -428,61 +428,81 @@ class Bucket
      */
 
     /**
-     * Checks if this bucket contains any additional data.
+     * Checks if this bucket contains any additional data, or a specific key in dot notation.
+     *
+     * @param string|null $key (If NULL, checks if any additional data exists)
      *
      * @return bool
      */
 
-    public function hasData(): bool
+    public function hasData(string $key = NULL): bool
     {
-        return isset($this->bucket['data']) && !empty($this->bucket['data']);
+
+        if (NULL === $key) {
+            return (isset($this->bucket['data']) && !empty($this->bucket['data']));
+        }
+
+        return Arr::has($this->bucket, 'data.' . $key);
+
     }
 
     /**
-     * Sets additional data for this bucket.
+     * Sets additional data for this bucket in dot notation.
      *
-     * @param array $data
+     * @param string $key
+     * @param mixed $value
      *
      * @return self
      */
 
-    public function setData(array $data): self
+    public function setData(string $key, $value): self
     {
 
-        $this->bucket['data'] = $data;
+        Arr::set($this->bucket, 'data.' . $key, $value);
 
         return $this;
 
     }
 
     /**
-     * Returns this bucket's additional data, or empty array if not existing.
+     * Returns this bucket's additional data key in dot notation, or an optional default value if not found.
      *
-     * @return array
+     * @param string|null $key (Returns the entire data array when NULL)
+     * @param mixed $default
+     *
+     * @return mixed
      */
 
-    public function getData(): array
+    public function getData(string $key = NULL, $default = NULL)
     {
 
-        if ($this->hasData()) {
-            return $this->bucket['data'];
+        if (NULL === $key) {
+            return Arr::get($this->bucket, 'data', $default);
         }
 
-        return [];
+        return Arr::get($this->bucket, 'data.' . $key, $default);
 
     }
 
     /**
-     * Removes all additional data for this bucket.
+     * Removes additional data key in dot notation for this bucket.
+     *
+     * @param string|null $key (Removes the entire data array when NULL)
      *
      * @return self
      */
 
-    public function forgetData(): self
+    public function forgetData(string $key = NULL): self
     {
 
-        if ($this->hasData()) {
-            unset($this->bucket['data']);
+        if (NULL === $key) {
+
+            Arr::forget($this->bucket, 'data');
+
+        } else {
+
+            Arr::forget($this->bucket, 'data.' . $key);
+
         }
 
         return $this;
