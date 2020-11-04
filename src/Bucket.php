@@ -260,6 +260,17 @@ class Bucket
     }
 
     /**
+     * Returns the number of seconds until bucket would be empty.
+     *
+     * @return float
+     */
+
+    public function getSecondsUntilEmpty(): float
+    {
+        return $this->getCapacityUsed() * $this->getSecondsPerDrop();
+    }
+
+    /**
      * Manually update the bucket's timestamp.
      *
      * The bucket's timestamp is automatically updated when any of the following methods are called:

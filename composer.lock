@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "ce83fba42c741e9d4bbe6ae6ff1c68b7",
+    "content-hash": "a4e56e183be6504bf43754b077aced88",
     "packages": [
         {
             "name": "bayfrontmedia/php-array-helpers",
@@ -50,22 +50,32 @@
                 "helpers",
                 "php"
             ],
+            "support": {
+                "issues": "https://github.com/bayfrontmedia/php-array-helpers/issues",
+                "source": "https://github.com/bayfrontmedia/php-array-helpers/tree/master"
+            },
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/bayfrontmedia",
+                    "type": "patreon"
+                }
+            ],
             "time": "2020-08-02T22:59:39+00:00"
         }
     ],
     "packages-dev": [
         {
             "name": "bayfrontmedia/filesystem-factory",
-            "version": "1.1.0",
+            "version": "1.2.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/bayfrontmedia/filesystem-factory.git",
-                "reference": "3516782f45ef0ffdf14b4ff4e037a00c51d74732"
+                "reference": "155c62fd264687c74705cee561cc6cc389e298b9"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/bayfrontmedia/filesystem-factory/zipball/3516782f45ef0ffdf14b4ff4e037a00c51d74732",
-                "reference": "3516782f45ef0ffdf14b4ff4e037a00c51d74732",
+                "url": "https://api.github.com/repos/bayfrontmedia/filesystem-factory/zipball/155c62fd264687c74705cee561cc6cc389e298b9",
+                "reference": "155c62fd264687c74705cee561cc6cc389e298b9",
                 "shasum": ""
             },
             "require": {
@@ -106,7 +116,17 @@
                 "php",
                 "storage"
             ],
-            "time": "2020-09-09T20:49:34+00:00"
+            "support": {
+                "issues": "https://github.com/bayfrontmedia/filesystem-factory/issues",
+                "source": "https://github.com/bayfrontmedia/filesystem-factory/tree/v1.2.0"
+            },
+            "funding": [
+                {
+                    "url": "https://www.patreon.com/bayfrontmedia",
+                    "type": "patreon"
+                }
+            ],
+            "time": "2020-09-15T19:07:52+00:00"
         },
         {
             "name": "league/flysystem",
@@ -190,6 +210,16 @@
                 "sftp",
                 "storage"
             ],
+            "support": {
+                "issues": "https://github.com/thephpleague/flysystem/issues",
+                "source": "https://github.com/thephpleague/flysystem/tree/1.0.70"
+            },
+            "funding": [
+                {
+                    "url": "https://offset.earth/frankdejonge",
+                    "type": "other"
+                }
+            ],
             "time": "2020-07-26T07:20:36+00:00"
         }
     ],
@@ -203,5 +233,6 @@
         "ext-pdo": "*",
         "ext-json": "*"
     },
-    "platform-dev": []
+    "platform-dev": [],
+    "plugin-api-version": "2.0.0"
 }
