@@ -60,16 +60,23 @@ $adapter = new Local('/root_path');
 
 **PDO**
 
-The PDO adapter allows you to use a `\PDO` instance for bucket storage into a database, and may throw a `Bayfront\LeakyBucket\AdapterException` exception in its constructor.
+The PDO adapter allows you to use a `\PDO` instance for bucket storage into a database.
 
 The PDO adapter will create/use a table named "buckets" unless otherwise specified in the constructor.
 
 ```
 use Bayfront\LeakyBucket\Adapters\PDO;
 
+$adapter = new PDO($dbh, 'table_to_use');
+```
+
+Use the `up` method to create the necessary database table to be used by this adapter.
+This method throws a `Bayfront\LeakyBucket\AdapterException` exception.
+
+```
 try {
 
-    $adapter = new PDO($dbh, 'table_to_use');
+    $adapter->up();
 
 } catch (AdapterException $e) {
     die($e->getMessage());

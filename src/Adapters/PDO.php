@@ -25,8 +25,6 @@ class PDO implements AdapterInterface
      *
      * @param \PDO $pdo
      * @param string $table
-     *
-     * @throws AdapterException
      */
 
     public function __construct(\PDO $pdo, string $table = 'buckets')
@@ -34,9 +32,25 @@ class PDO implements AdapterInterface
 
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // Throw exceptions
 
+        $this->pdo = $pdo;
+
+        $this->table = $table;
+    }
+
+    /**
+     * Creates the necessary database table to be used by this adapter.
+     *
+     * @return void
+     *
+     * @throws AdapterException
+     */
+
+    public function up(): void
+    {
+
         try {
 
-            $query = $pdo->prepare("CREATE TABLE IF NOT EXISTS $table (`id` varchar(255) NOT NULL PRIMARY KEY, `contents` text NOT NULL)");
+            $query = $this->pdo->prepare("CREATE TABLE IF NOT EXISTS $this->table (`id` varchar(255) NOT NULL PRIMARY KEY, `contents` text NOT NULL)");
 
             $query->execute();
 
@@ -46,9 +60,6 @@ class PDO implements AdapterInterface
 
         }
 
-        $this->pdo = $pdo;
-
-        $this->table = $table;
     }
 
     /**
