@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @package leaky-bucket
- * @link https://github.com/bayfrontmedia/leaky-bucket
- * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020 Bayfront Media
- */
-
 namespace Bayfront\LeakyBucket\Adapters;
 
 use Bayfront\LeakyBucket\AdapterException;
@@ -16,9 +9,9 @@ use PDOException;
 class PDO implements AdapterInterface
 {
 
-    protected $pdo;
+    protected \PDO $pdo;
 
-    protected $table;
+    protected string $table;
 
     /**
      * PDO constructor.
@@ -81,7 +74,7 @@ class PDO implements AdapterInterface
                 return true;
             }
 
-        } catch (AdapterException $e) {
+        } catch (AdapterException) {
 
             return false;
 

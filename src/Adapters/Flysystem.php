@@ -1,25 +1,20 @@
 <?php
 
-/**
- * @package leaky-bucket
- * @link https://github.com/bayfrontmedia/leaky-bucket
- * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020 Bayfront Media
- */
-
 namespace Bayfront\LeakyBucket\Adapters;
 
 use Bayfront\LeakyBucket\AdapterException;
 use Bayfront\LeakyBucket\AdapterInterface;
-use League\Flysystem\FileNotFoundException;
 use League\Flysystem\Filesystem;
+use League\Flysystem\FilesystemException;
+use League\Flysystem\UnableToDeleteFile;
+use League\Flysystem\UnableToReadFile;
 
 class Flysystem implements AdapterInterface
 {
 
-    protected $storage;
+    protected Filesystem $storage;
 
-    protected $root;
+    protected string $root;
 
     public function __construct(Filesystem $storage, string $root = '')
     {
@@ -41,11 +36,18 @@ class Flysystem implements AdapterInterface
      * @param string $id
      *
      * @return bool
+     * @throws AdapterException
      */
 
     public function exists(string $id): bool
     {
-        return $this->storage->has($this->root . '/' . $this->_getFilename($id));
+
+        try {
+            return $this->storage->has($this->root . '/' . $this->_getFilename($id));
+        } catch (FilesystemException $e) {
+            throw new AdapterException($e->getMessage(), 0, $e);
+        }
+
     }
 
     /**
@@ -62,12 +64,10 @@ class Flysystem implements AdapterInterface
     public function save(string $id, string $contents): void
     {
 
-        $write = $this->storage->put($this->root . '/' . $this->_getFilename($id), $contents);
-
-        if (false === $write) {
-
-            throw new AdapterException('Unable to save (' . $this->_getFilename($id) . ')');
-
+        try {
+            $this->storage->write($this->root . '/' . $this->_getFilename($id), $contents);
+        } catch (FilesystemException $e) {
+            throw new AdapterException($e->getMessage(), 0, $e);
         }
 
     }
@@ -86,20 +86,10 @@ class Flysystem implements AdapterInterface
     {
 
         try {
-
-            $read = $this->storage->read($this->root . '/' . $this->_getFilename($id));
-
-            if ($read) {
-                return $read;
-            }
-
-        } catch (FileNotFoundException $e) {
-
-            throw new AdapterException('Unable to read (' . $this->_getFilename($id) . ')', 0, $e);
-
+            return $this->storage->read($this->root . '/' . $this->_getFilename($id));
+        } catch (FilesystemException|UnableToReadFile $e) {
+            throw new AdapterException($e->getMessage(), 0, $e);
         }
-
-        throw new AdapterException('Unable to read (' . $this->_getFilename($id) . ')');
 
     }
 
@@ -117,20 +107,10 @@ class Flysystem implements AdapterInterface
     {
 
         try {
-
-            $delete = $this->storage->delete($this->root . '/' . $this->_getFilename($id));
-
-            if ($delete) {
-                return;
-            }
-
-        } catch (FileNotFoundException $e) {
-
-            throw new AdapterException('Unable to delete (' . $this->_getFilename($id) . ')', 0, $e);
-
+            $this->storage->delete($this->root . '/' . $this->_getFilename($id));
+        } catch (FilesystemException|UnableToDeleteFile $e) {
+            throw new AdapterException($e->getMessage(), 0, $e);
         }
-
-        throw new AdapterException('Unable to delete (' . $this->_getFilename($id) . ')');
 
     }
 

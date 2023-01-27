@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @package leaky-bucket
- * @link https://github.com/bayfrontmedia/leaky-bucket
- * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020 Bayfront Media
- */
-
 namespace Bayfront\LeakyBucket;
 
 use Bayfront\ArrayHelpers\Arr;
@@ -14,13 +7,13 @@ use Bayfront\ArrayHelpers\Arr;
 class Bucket
 {
 
-    protected $id; // Bucket ID
+    protected string $id; // Bucket ID
 
-    protected $storage; // AdapterInterface
+    protected AdapterInterface $storage; // AdapterInterface
 
-    protected $settings;
+    protected array $settings;
 
-    protected $bucket; // This bucket
+    protected mixed $bucket; // This bucket
 
     /**
      * Throttle constructor.
@@ -50,7 +43,7 @@ class Bucket
             'leak'
         ]);
 
-        foreach ($this->settings as $k => $v) {
+        foreach ($this->settings as $v) {
 
             if (!is_int($v)) {
                 throw new BucketException('Invalid bucket configuration for bucket ID: ' . $id);
@@ -466,7 +459,7 @@ class Bucket
      * @return self
      */
 
-    public function setData(string $key, $value): self
+    public function setData(string $key, mixed $value): self
     {
 
         Arr::set($this->bucket, 'data.' . $key, $value);
@@ -479,12 +472,12 @@ class Bucket
      * Returns this bucket's additional data key in dot notation, or an optional default value if not found.
      *
      * @param string|null $key (Returns the entire data array when NULL)
-     * @param mixed $default
+     * @param mixed|null $default
      *
      * @return mixed
      */
 
-    public function getData(string $key = NULL, $default = NULL)
+    public function getData(string $key = NULL, mixed $default = NULL): mixed
     {
 
         if (NULL === $key) {

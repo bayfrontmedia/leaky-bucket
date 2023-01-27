@@ -1,6 +1,6 @@
 ## Leaky Bucket
 
-Framework agnostic throttling using the leaky bucket algorithm.
+Framework-agnostic throttling using the leaky bucket algorithm.
 
 A bucket has a defined capacity and leak rate per minute.
 Buckets can also store additional arbitrary data.
@@ -24,7 +24,7 @@ This project is open source and available under the [MIT License](LICENSE).
 
 ## Requirements
 
-* PHP >= 7.1.0
+* PHP `^8.0`
 * PDO PHP extension
 * JSON PHP extension
 
@@ -43,7 +43,7 @@ There are a variety of storage adapters available, each with their own required 
 
 **Flysystem**
 
-The Flysystem adapter allows you to use a [Flysystem](https://github.com/thephpleague/flysystem) `League\Flysystem\Filesystem` instance for bucket storage.
+The Flysystem adapter allows you to use a [Flysystem](https://github.com/thephpleague/flysystem) `League\Flysystem\Filesystem` v3 instance for bucket storage.
 
 ```
 use Bayfront\LeakyBucket\Adapters\Flysystem;

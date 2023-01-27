@@ -1,12 +1,5 @@
 <?php
 
-/**
- * @package leaky-bucket
- * @link https://github.com/bayfrontmedia/leaky-bucket
- * @author John Robinson <john@bayfrontmedia.com>
- * @copyright 2020 Bayfront Media
- */
-
 namespace Bayfront\LeakyBucket\Adapters;
 
 use Bayfront\LeakyBucket\AdapterException;
@@ -15,7 +8,7 @@ use Bayfront\LeakyBucket\AdapterInterface;
 class Local implements AdapterInterface
 {
 
-    protected $root;
+    protected string $root;
 
     public function __construct(string $root = '')
     {
