@@ -43,7 +43,7 @@ There are a variety of storage adapters available, each with their own required 
 
 **Flysystem**
 
-The Flysystem adapter allows you to use a [Flysystem](https://github.com/thephpleague/flysystem) `League\Flysystem\Filesystem` v3 instance for bucket storage.
+The `Flysystem` adapter allows you to use a [Flysystem](https://github.com/thephpleague/flysystem) `League\Flysystem\Filesystem` v3 instance for bucket storage.
 
 ```
 use Bayfront\LeakyBucket\Adapters\Flysystem;
@@ -53,7 +53,7 @@ $adapter = new Flysystem($filesystem, '/root_path');
 
 **Local**
 
-The local adapter allows you to store buckets locally using native PHP.
+The `Local` adapter allows you to store buckets locally using native PHP.
 
 ```
 use Bayfront\LeakyBucket\Adapters\Local;
@@ -63,9 +63,9 @@ $adapter = new Local('/root_path');
 
 **PDO**
 
-The PDO adapter allows you to use a `\PDO` instance for bucket storage into a database.
+The `PDO` adapter allows you to use a `\PDO` instance for bucket storage into a database.
 
-The PDO adapter will create/use a table named "buckets" unless otherwise specified in the constructor.
+The `PDO` adapter will create/use a table named "buckets" unless otherwise specified in the constructor.
 
 ```
 use Bayfront\LeakyBucket\Adapters\PDO;
@@ -74,7 +74,9 @@ $adapter = new PDO($dbh, 'table_to_use');
 ```
 
 Use the `up` method to create the necessary database table to be used by this adapter.
-This method throws a `Bayfront\LeakyBucket\AdapterException` exception.
+Use the `down` method to remove the database table.
+
+These methods throw a `Bayfront\LeakyBucket\AdapterException` exception.
 
 ```
 try {
@@ -89,7 +91,8 @@ try {
 ### Start using Leaky Bucket
 
 Once your adapter has been created, it can be used with Leaky Bucket. 
-In addition, an array containing keys defining the bucket structure should be passed to the constructor.
+In addition, an optional settings array can be passed to the constructor.
+The default settings are shown below.
 
 ```
 use Bayfront\LeakyBucket\AdapterException;

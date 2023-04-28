@@ -12,6 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities
 
+## [2.1.0] - 2023.04.28
+
+### Added
+
+- Added `down` method to remove database table in `PDO` adapter.
+
+### Changed
+
+- Added `DEFAULT CHARSET` and `COLLATE` to database table in `PDO` adapter.
+- Made the config array in the `Bucket` constructor optional.
+
 ## [2.0.0] - 2023.01.27
 
 ### Added

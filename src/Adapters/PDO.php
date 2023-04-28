@@ -43,7 +43,38 @@ class PDO implements AdapterInterface
 
         try {
 
-            $query = $this->pdo->prepare("CREATE TABLE IF NOT EXISTS $this->table (`id` varchar(255) NOT NULL PRIMARY KEY, `contents` text NOT NULL)");
+            $query = $this->pdo->prepare("CREATE TABLE IF NOT EXISTS $this->table (
+                `id` varchar(255) NOT NULL PRIMARY KEY, 
+                `contents` text NOT NULL, 
+                `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+                `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
+
+            $query->execute();
+
+        } catch (PDOException $e) {
+
+            throw new AdapterException($e->getMessage(), 0, $e);
+
+        }
+
+    }
+
+
+    /**
+     * Removes the database table created by this adapter.
+     *
+     * @return void
+     *
+     * @throws AdapterException
+     */
+
+    public function down(): void
+    {
+
+        try {
+
+            $query = $this->pdo->prepare("DROP TABLE IF EXISTS $this->table");
 
             $query->execute();
 

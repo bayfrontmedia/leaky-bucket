@@ -26,7 +26,7 @@ class Bucket
      * @throws AdapterException
      */
 
-    public function __construct(string $id, AdapterInterface $storage, array $settings)
+    public function __construct(string $id, AdapterInterface $storage, array $settings = [])
     {
 
         $this->id = $id;
@@ -38,10 +38,7 @@ class Bucket
             'leak' => 10
         ];
 
-        $this->settings = Arr::only(array_merge($default_settings, $settings), [
-            'capacity',
-            'leak'
-        ]);
+        $this->settings = array_merge($default_settings, Arr::only($settings, array_keys($default_settings)));
 
         foreach ($this->settings as $v) {
 
