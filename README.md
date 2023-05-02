@@ -458,6 +458,7 @@ echo $bucket->getSecondsPerDrop();
 **Description:**
 
 Returns the number of seconds until bucket has capacity for number of drops.
+Returns `0` if bucket has capacity.
 
 **Parameters:**
 
