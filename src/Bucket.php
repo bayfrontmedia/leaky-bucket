@@ -250,6 +250,28 @@ class Bucket
     }
 
     /**
+     * Returns the number of seconds until bucket has capacity for number of drops.
+     *
+     * @param int $drops
+     * @return float
+     */
+
+    public function getSecondsUntilCapacity(int $drops = 1): float
+    {
+
+        $remaining = $this->getCapacityRemaining();
+
+        if ($remaining > 0) {
+            return 0;
+        }
+
+        $overage = $this->getCapacityUsed() - $this->getCapacity();
+
+        return $overage * ($this->getSecondsPerDrop() * $drops);
+
+    }
+
+    /**
      * Returns the number of seconds until bucket would be empty.
      *
      * @return float

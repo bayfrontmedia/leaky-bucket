@@ -147,6 +147,7 @@ Also, the `save()` method must be used to store the current bucket settings for 
 - [hasCapacity](#hascapacity)
 - [getLeakPerSecond](#getleakpersecond)
 - [getSecondsPerDrop](#getsecondsperdrop)
+- [getSecondsUntilCapacity](#getsecondsuntilcapacity)
 - [getSecondsUntilEmpty](#getsecondsuntilempty)
 - [touch](#touch)
 - [getLastTime](#getlasttime)
@@ -439,6 +440,28 @@ Returns the number of seconds required to leak one drop.
 **Parameters:**
 
 - None
+
+**Returns:**
+
+- (float)
+
+**Example:**
+
+```
+echo $bucket->getSecondsPerDrop();
+```
+
+<hr />
+
+### getSecondsUntilCapacity
+
+**Description:**
+
+Returns the number of seconds until bucket has capacity for number of drops.
+
+**Parameters:**
+
+- `$drops = 1` (int)
 
 **Returns:**
 
