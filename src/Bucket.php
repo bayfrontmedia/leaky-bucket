@@ -459,7 +459,7 @@ class Bucket
      * @return bool
      */
 
-    public function hasData(string $key = NULL): bool
+    public function hasData(?string $key = NULL): bool
     {
 
         if (NULL === $key) {
@@ -497,7 +497,7 @@ class Bucket
      * @return mixed
      */
 
-    public function getData(string $key = NULL, mixed $default = NULL): mixed
+    public function getData(?string $key = NULL, mixed $default = NULL): mixed
     {
 
         if (NULL === $key) {
@@ -516,7 +516,7 @@ class Bucket
      * @return self
      */
 
-    public function forgetData(string $key = NULL): self
+    public function forgetData(?string $key = NULL): self
     {
 
         if (NULL === $key) {
