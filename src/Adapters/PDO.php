@@ -46,8 +46,8 @@ class PDO implements AdapterInterface
             $query = $this->pdo->prepare("CREATE TABLE IF NOT EXISTS $this->table (
                 `id` varchar(255) NOT NULL PRIMARY KEY, 
                 `contents` text NOT NULL, 
-                `createdAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
-                `updatedAt` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
+                `created_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+                `updated_at` datetime NOT NULL DEFAULT CURRENT_TIMESTAMP() ON UPDATE CURRENT_TIMESTAMP()
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci");
 
             $query->execute();
