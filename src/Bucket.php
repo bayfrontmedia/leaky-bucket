@@ -97,7 +97,7 @@ class Bucket
          * json_encode and serialize_precision.
          */
 
-        $this->bucket['drops'] = (string)$this->bucket['drops'];
+        $this->bucket['drops'] = (string)round($this->bucket['drops'], 4);
 
         $this->storage->save($this->id, json_encode($this->bucket));
 

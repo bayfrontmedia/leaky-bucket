@@ -20,6 +20,7 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ### Changed
 
+- Updated bucket drops to save no more than 4 decimals.
 - General code cleanup.
 
 ## [2.2.2] - 2024.12.24
