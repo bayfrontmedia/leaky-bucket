@@ -24,10 +24,8 @@ class Local implements AdapterInterface
      * Does the bucket exist.
      *
      * @param string $id
-     *
      * @return bool
      */
-
     public function exists(string $id): bool
     {
         return file_exists($this->root . '/' . $this->_getFilename($id));
@@ -38,12 +36,9 @@ class Local implements AdapterInterface
      *
      * @param string $id
      * @param string $contents
-     *
      * @returns void
-     *
      * @throws AdapterException
      */
-
     public function save(string $id, string $contents): void
     {
 
@@ -54,18 +49,15 @@ class Local implements AdapterInterface
             $dir = mkdir($dirname, 0755, true);
 
             if (false === $dir) {
-
                 throw new AdapterException('Unable to save (' . $this->_getFilename($id) . ')');
-
             }
+
         }
 
         $write = file_put_contents($this->root . '/' . $this->_getFilename($id), $contents);
 
         if (false === $write) {
-
             throw new AdapterException('Unable to save (' . $this->_getFilename($id) . ')');
-
         }
 
     }
@@ -74,12 +66,9 @@ class Local implements AdapterInterface
      * Read contents of bucket.
      *
      * @param string $id
-     *
      * @return string
-     *
      * @throws AdapterException
      */
-
     public function read(string $id): string
     {
 
@@ -97,12 +86,9 @@ class Local implements AdapterInterface
      * Delete bucket.
      *
      * @param string $id
-     *
      * @return void
-     *
      * @throws AdapterException
      */
-
     public function delete(string $id): void
     {
 

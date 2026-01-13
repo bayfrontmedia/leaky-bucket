@@ -19,14 +19,10 @@ class PDO implements AdapterInterface
      * @param \PDO $pdo
      * @param string $table
      */
-
     public function __construct(\PDO $pdo, string $table = 'buckets')
     {
-
         $pdo->setAttribute(\PDO::ATTR_ERRMODE, \PDO::ERRMODE_EXCEPTION); // Throw exceptions
-
         $this->pdo = $pdo;
-
         $this->table = $table;
     }
 
@@ -34,10 +30,8 @@ class PDO implements AdapterInterface
      * Creates the necessary database table to be used by this adapter.
      *
      * @return void
-     *
      * @throws AdapterException
      */
-
     public function up(): void
     {
 
@@ -53,9 +47,7 @@ class PDO implements AdapterInterface
             $query->execute();
 
         } catch (PDOException $e) {
-
             throw new AdapterException($e->getMessage(), 0, $e);
-
         }
 
     }
@@ -65,10 +57,8 @@ class PDO implements AdapterInterface
      * Removes the database table created by this adapter.
      *
      * @return void
-     *
      * @throws AdapterException
      */
-
     public function down(): void
     {
 
@@ -79,9 +69,7 @@ class PDO implements AdapterInterface
             $query->execute();
 
         } catch (PDOException $e) {
-
             throw new AdapterException($e->getMessage(), 0, $e);
-
         }
 
     }
@@ -90,10 +78,8 @@ class PDO implements AdapterInterface
      * Does the bucket exist.
      *
      * @param string $id
-     *
      * @return bool
      */
-
     public function exists(string $id): bool
     {
 
@@ -106,9 +92,7 @@ class PDO implements AdapterInterface
             }
 
         } catch (AdapterException) {
-
             return false;
-
         }
 
     }
@@ -118,12 +102,9 @@ class PDO implements AdapterInterface
      *
      * @param string $id
      * @param string $contents
-     *
      * @returns void
-     *
      * @throws AdapterException
      */
-
     public function save(string $id, string $contents): void
     {
 
@@ -137,9 +118,7 @@ class PDO implements AdapterInterface
             ]);
 
         } catch (PDOException $e) {
-
             throw new AdapterException('Unable to save (' . $id . ')', 0, $e);
-
         }
 
     }
@@ -148,12 +127,9 @@ class PDO implements AdapterInterface
      * Read contents of bucket.
      *
      * @param string $id
-     *
      * @return string
-     *
      * @throws AdapterException
      */
-
     public function read(string $id): string
     {
 
@@ -168,9 +144,7 @@ class PDO implements AdapterInterface
             return $stmt->fetchColumn();
 
         } catch (PDOException $e) {
-
             throw new AdapterException('Unable to read (' . $id . ')', 0, $e);
-
         }
 
     }
@@ -179,12 +153,9 @@ class PDO implements AdapterInterface
      * Delete bucket.
      *
      * @param string $id
-     *
      * @return void
-     *
      * @throws AdapterException
      */
-
     public function delete(string $id): void
     {
 
@@ -201,9 +172,7 @@ class PDO implements AdapterInterface
             }
 
         } catch (PDOException $e) {
-
             throw new AdapterException('Unable to delete (' . $id . ')', 0, $e);
-
         }
 
         throw new AdapterException('Unable to delete (' . $id . ')');

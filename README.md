@@ -28,9 +28,13 @@ This project is open source and available under the [MIT License](LICENSE).
 * PDO PHP extension
 * JSON PHP extension
 
+### Suggested
+
+- Redis PHP extension
+
 ## Installation
 
-```
+```shell
 composer require bayfrontmedia/leaky-bucket
 ```
 
@@ -45,7 +49,7 @@ There are a variety of storage adapters available, each with their own required 
 
 The `Flysystem` adapter allows you to use a [Flysystem](https://github.com/thephpleague/flysystem) `League\Flysystem\Filesystem` v3 instance for bucket storage.
 
-```
+```php
 use Bayfront\LeakyBucket\Adapters\Flysystem;
 
 $adapter = new Flysystem($filesystem, '/root_path');
@@ -55,7 +59,7 @@ $adapter = new Flysystem($filesystem, '/root_path');
 
 The `Local` adapter allows you to store buckets locally using native PHP.
 
-```
+```php
 use Bayfront\LeakyBucket\Adapters\Local;
 
 $adapter = new Local('/root_path');
@@ -67,7 +71,7 @@ The `PDO` adapter allows you to use a `\PDO` instance for bucket storage into a 
 
 The `PDO` adapter will create/use a table named "buckets" unless otherwise specified in the constructor.
 
-```
+```php
 use Bayfront\LeakyBucket\Adapters\PDO;
 
 $adapter = new PDO($dbh, 'table_to_use');
@@ -78,7 +82,7 @@ Use the `down` method to remove the database table.
 
 These methods throw a `Bayfront\LeakyBucket\AdapterException` exception.
 
-```
+```php
 try {
 
     $adapter->up();
@@ -87,14 +91,48 @@ try {
     die($e->getMessage());
 }
 ```
- 
+
+**Redis**
+
+The `Redis` adapter allows you to use a `\Redis` instance for bucket storage.
+The Redis PHP extension must be installed.
+
+```php
+use Bayfront\LeakyBucket\Adapters\Redis;
+
+$redis = new Redis();
+
+try {
+    $redis->pconnect('10.0.0.1', 6379, 2, 'cache');
+} catch (RedisException $e) {
+    $redis->connect('10.0.0.1', 6379, 2);
+}
+
+$redis->auth([
+    'USERNAME',
+    'PASSWORD'
+]);
+
+$adapter = new \Bayfront\LeakyBucket\Adapters\Redis($redis, 'bucket:prefix:', 3600);
+```
+
+The second argument allows a prefix to be defined for all bucket keys.
+The third argument allows a TTL to be defined (in seconds) for all buckets
+
+A good TTL value can be calculated based on the bucket's capacity and leak rate.
+For example, if the capacity is 10 and the leak rate is 10 (drops per minute), the longest possible duration of a valid
+bucket is 1 minute. Therefore, a TTL of 60 seconds will ensure the bucket is automatically deleted once it has reached
+the longest possible measured duration.
+
+The TTL is reset each time the bucket is saved.
+
 ### Start using Leaky Bucket
 
 Once your adapter has been created, it can be used with Leaky Bucket. 
 In addition, an optional settings array can be passed to the constructor.
 The default settings are shown below.
 
-```
+```php
 use Bayfront\LeakyBucket\AdapterException;
 use Bayfront\LeakyBucket\BucketException;
 use Bayfront\LeakyBucket\Bucket;
@@ -179,7 +217,7 @@ Checks if this bucket ID already exists in storage.
 
 **Example:**
 
-```
+```php
 if ($bucket->exists()) {
     // Do something
 }
@@ -207,7 +245,7 @@ Saves the bucket.
 
 **Example:**
 
-```
+```php
 try {
 
     $bucket->save();
@@ -235,7 +273,7 @@ Returns entire bucket contents.
 
 **Example:**
 
-```
+```php
 $contents = $bucket->get();
 ```
 
@@ -257,7 +295,7 @@ Reset all bucket information and data.
 
 **Example:**
 
-```
+```php
 $bucket->reset();
 ```
 
@@ -283,7 +321,7 @@ Resets bucket and deletes the file in storage.
 
 **Example:**
 
-```
+```php
 try {
 
     $bucket->delete();
@@ -311,7 +349,7 @@ Checks if bucket is full.
 
 **Example:**
 
-```
+```php
 if ($bucket->isFull()) {
     // Do something
 }
@@ -335,7 +373,7 @@ Returns the total bucket capacity.
 
 **Example:**
 
-```
+```php
 echo $bucket->getCapacity();
 ```
 
@@ -357,7 +395,7 @@ Returns the number of drops in the bucket.
 
 **Example:**
 
-```
+```php
 echo $bucket->getCapacityUsed();
 ```
 
@@ -379,7 +417,7 @@ Returns the remaining bucket capacity.
 
 **Example:**
 
-```
+```php
 echo $bucket->getCapacityRemaining();
 ```
 
@@ -401,7 +439,7 @@ Checks if bucket has the capacity fo fill by a given number of drops.
 
 **Example:**
 
-```
+```php
 if ($bucket->hasCapacity(5)) {
     // Do something
 }
@@ -425,7 +463,7 @@ Returns the number of drops per second the bucket will leak.
 
 **Example:**
 
-```
+```php
 echo $bucket->getLeakPerSecond();
 ```
 
@@ -447,7 +485,7 @@ Returns the number of seconds required to leak one drop.
 
 **Example:**
 
-```
+```php
 echo $bucket->getSecondsPerDrop();
 ```
 
@@ -470,7 +508,7 @@ Returns `0` if bucket has capacity.
 
 **Example:**
 
-```
+```php
 echo $bucket->getSecondsPerDrop();
 ```
 
@@ -492,7 +530,7 @@ Returns the number of seconds until bucket would be empty.
 
 **Example:**
 
-```
+```php
 echo $bucket->getSecondsUntilEmpty();
 ```
 
@@ -521,7 +559,7 @@ The bucket's timestamp is automatically updated when any of the following method
 
 **Example:**
 
-```
+```php
 $bucket->touch();
 ```
 
@@ -543,7 +581,7 @@ Returns the bucket's last timestamp.
 
 **Example:**
 
-```
+```php
 echo $bucket->getLastTime();
 ```
 
@@ -574,7 +612,7 @@ Otherwise, the bucket will be allowed to overflow.
 
 **Example:**
 
-```
+```php
 try {
     
     $bucket->fill();
@@ -602,7 +640,7 @@ Updates the bucket by calculating how many drops to leak since it's last timesta
 
 **Example:**
 
-```
+```php
 $bucket->leak();
 ```
 
@@ -624,7 +662,7 @@ Spills a given number of drops from the bucket.
 
 **Example:**
 
-```
+```php
 $bucket->spill(5);
 ```
 
@@ -646,7 +684,7 @@ Dumps (empties) all drops from the bucket in excess of its capacity.
 
 **Example:**
 
-```
+```php
 $bucket->overflow();
 ```
 
@@ -668,7 +706,7 @@ Dumps (empties) all drops from the bucket.
 
 **Example:**
 
-```
+```php
 $bucket->dump();
 ```
 
@@ -690,7 +728,7 @@ Checks if this bucket contains any additional data, or a specific key in dot not
 
 **Example:**
 
-```
+```php
 if ($bucket->hasData('client_id')) {
     // Do something
 }
@@ -715,7 +753,7 @@ Sets additional data for this bucket in dot notation.
 
 **Example:**
 
-```
+```php
 $bucket->setData('client_id', 5);
 ```
 
@@ -738,7 +776,7 @@ Returns this bucket's additional data key in dot notation, or an optional defaul
 
 **Example:**
 
-```
+```php
 $client_id = $bucket->getData('client_id');
 ```
 
@@ -760,6 +798,6 @@ Removes additional data key in dot notation for this bucket.
 
 **Example:**
 
-```
+```php
 $bucket->forgetData('client_id');
 ```

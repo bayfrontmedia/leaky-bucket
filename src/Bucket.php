@@ -8,11 +8,8 @@ class Bucket
 {
 
     protected string $id; // Bucket ID
-
     protected AdapterInterface $storage; // AdapterInterface
-
     protected array $settings;
-
     protected mixed $bucket; // This bucket
 
     /**
@@ -21,16 +18,13 @@ class Bucket
      * @param string $id
      * @param AdapterInterface $storage
      * @param array $settings
-     *
      * @throws BucketException
      * @throws AdapterException
      */
-
     public function __construct(string $id, AdapterInterface $storage, array $settings = [])
     {
 
         $this->id = $id;
-
         $this->storage = $storage;
 
         $default_settings = [
@@ -51,7 +45,6 @@ class Bucket
         if ($this->exists()) {
 
             /* @throws AdapterException */
-
             $this->bucket = json_decode($this->storage->read($id), true);
 
             /*
@@ -61,9 +54,7 @@ class Bucket
             $this->bucket['drops'] = (float)$this->bucket['drops'];
 
         } else {
-
             $this->reset();
-
         }
 
         if (Arr::isMissing($this->bucket, [
@@ -86,7 +77,6 @@ class Bucket
      *
      * @return bool
      */
-
     public function exists(): bool
     {
         return $this->storage->exists($this->id);
@@ -96,10 +86,8 @@ class Bucket
      * Saves the bucket.
      *
      * @return self
-     *
      * @throws AdapterException
      */
-
     public function save(): self
     {
 
@@ -109,7 +97,7 @@ class Bucket
          * json_encode and serialize_precision.
          */
 
-        $this->bucket['drops'] = (string)$this->bucket['drops'];
+        $this->bucket['drops'] = (string)round($this->bucket['drops'], 4);
 
         $this->storage->save($this->id, json_encode($this->bucket));
 
@@ -122,7 +110,6 @@ class Bucket
      *
      * @return array
      */
-
     public function get(): array
     {
         return $this->bucket;
@@ -133,7 +120,6 @@ class Bucket
      *
      * @return self
      */
-
     public function reset(): self
     {
 
@@ -150,17 +136,13 @@ class Bucket
      * Resets bucket and deletes the file in storage.
      *
      * @return self
-     *
      * @throws AdapterException
      */
-
     public function delete(): self
     {
 
         $this->reset();
-
         $this->storage->delete($this->id);
-
         return $this;
 
     }
@@ -170,7 +152,6 @@ class Bucket
      *
      * @return bool
      */
-
     public function isFull(): bool
     {
         return $this->getCapacityUsed() >= $this->settings['capacity'];
@@ -181,7 +162,6 @@ class Bucket
      *
      * @return int
      */
-
     public function getCapacity(): int
     {
         return $this->settings['capacity'];
@@ -192,7 +172,6 @@ class Bucket
      *
      * @return float
      */
-
     public function getCapacityUsed(): float
     {
         return $this->bucket['drops'];
@@ -203,7 +182,6 @@ class Bucket
      *
      * @return float
      */
-
     public function getCapacityRemaining(): float
     {
 
@@ -218,10 +196,8 @@ class Bucket
      * Checks if bucket has the capacity fo fill by a given number of drops.
      *
      * @param int $drops
-     *
      * @return bool
      */
-
     public function hasCapacity(int $drops = 1): bool
     {
         return $this->settings['capacity'] >= ($this->getCapacityUsed() + abs($drops));
@@ -232,7 +208,6 @@ class Bucket
      *
      * @return float
      */
-
     public function getLeakPerSecond(): float
     {
         return $this->settings['leak'] / 60;
@@ -243,7 +218,6 @@ class Bucket
      *
      * @return float
      */
-
     public function getSecondsPerDrop(): float
     {
         return 1 / $this->getLeakPerSecond();
@@ -256,7 +230,6 @@ class Bucket
      * @param int $drops
      * @return float
      */
-
     public function getSecondsUntilCapacity(int $drops = 1): float
     {
 
@@ -277,7 +250,6 @@ class Bucket
      *
      * @return float
      */
-
     public function getSecondsUntilEmpty(): float
     {
         return $this->getCapacityUsed() * $this->getSecondsPerDrop();
@@ -294,14 +266,10 @@ class Bucket
      *
      * @return self
      */
-
     public function touch(): self
     {
-
         $this->bucket['time'] = time();
-
         return $this;
-
     }
 
     /**
@@ -328,12 +296,9 @@ class Bucket
      *
      * @param int $drops
      * @param bool $allow_overflow
-     *
      * @return self
-     *
      * @throws BucketException
      */
-
     public function fill(int $drops = 1, bool $allow_overflow = false): self
     {
 
@@ -342,7 +307,6 @@ class Bucket
         }
 
         $this->bucket['drops'] += abs($drops); // Force positive integer
-
         $this->bucket['time'] = time();
 
         return $this;
@@ -360,7 +324,6 @@ class Bucket
      *
      * @return self
      */
-
     public function leak(): self
     {
 
@@ -371,13 +334,9 @@ class Bucket
         $leakage = $elapsed_secs * $this->getLeakPerSecond(); // How much the bucket needs to leak
 
         if ($leakage > $this->bucket['drops']) { // Do not leak under 0
-
             $this->bucket['drops'] = 0;
-
         } else {
-
             $this->bucket['drops'] = $this->bucket['drops'] - $leakage;
-
         }
 
         $this->bucket['time'] = $now;
@@ -390,10 +349,8 @@ class Bucket
      * Spills a given number of drops from the bucket.
      *
      * @param int $drops
-     *
      * @return self
      */
-
     public function spill(int $drops = 1): self
     {
 
@@ -404,7 +361,6 @@ class Bucket
         }
 
         $this->bucket['drops'] = $total;
-
         $this->bucket['time'] = time();
 
         return $this;
@@ -416,7 +372,6 @@ class Bucket
      *
      * @return self
      */
-
     public function overflow(): self
     {
 
@@ -433,12 +388,10 @@ class Bucket
      *
      * @return self
      */
-
     public function dump(): self
     {
 
         $this->bucket['drops'] = 0;
-
         $this->bucket['time'] = time();
 
         return $this;
@@ -455,10 +408,8 @@ class Bucket
      * Checks if this bucket contains any additional data, or a specific key in dot notation.
      *
      * @param string|null $key (If NULL, checks if any additional data exists)
-     *
      * @return bool
      */
-
     public function hasData(?string $key = NULL): bool
     {
 
@@ -475,15 +426,12 @@ class Bucket
      *
      * @param string $key
      * @param mixed $value
-     *
      * @return self
      */
-
     public function setData(string $key, mixed $value): self
     {
 
         Arr::set($this->bucket, 'data.' . $key, $value);
-
         return $this;
 
     }
@@ -493,10 +441,8 @@ class Bucket
      *
      * @param string|null $key (Returns the entire data array when NULL)
      * @param mixed|null $default
-     *
      * @return mixed
      */
-
     public function getData(?string $key = NULL, mixed $default = NULL): mixed
     {
 
@@ -512,21 +458,15 @@ class Bucket
      * Removes additional data key in dot notation for this bucket.
      *
      * @param string|null $key (Removes the entire data array when NULL)
-     *
      * @return self
      */
-
     public function forgetData(?string $key = NULL): self
     {
 
         if (NULL === $key) {
-
             Arr::forget($this->bucket, 'data');
-
         } else {
-
             Arr::forget($this->bucket, 'data.' . $key);
-
         }
 
         return $this;

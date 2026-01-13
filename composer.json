@@ -31,6 +31,9 @@
     "bayfrontmedia/php-array-helpers": "^2.0",
     "league/flysystem": "^3.29"
   },
+  "suggest": {
+    "ext-redis": "Required by the Redis adapter"
+  },
   "autoload": {
     "psr-4": {
       "Bayfront\\LeakyBucket\\": "src/"

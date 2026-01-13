@@ -12,6 +12,17 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - `Fixed` for any bug fixes.
 - `Security` in case of vulnerabilities
 
+## [2.3.0] - 2026.01.13
+
+### Added
+
+- Added `Redis` adapter.
+
+### Changed
+
+- Updated bucket drops to save no more than 4 decimals.
+- General code cleanup.
+
 ## [2.2.2] - 2024.12.24
 
 ### Changed
