@@ -18,11 +18,8 @@ class Flysystem implements AdapterInterface
 
     public function __construct(Filesystem $storage, string $root = '')
     {
-
         $this->storage = $storage;
-
         $this->root = '/' . trim($root, '/'); // Trim slashes
-
     }
 
     protected function _getFilename(string $id): string
@@ -34,11 +31,9 @@ class Flysystem implements AdapterInterface
      * Does the bucket exist.
      *
      * @param string $id
-     *
      * @return bool
      * @throws AdapterException
      */
-
     public function exists(string $id): bool
     {
 
@@ -55,12 +50,9 @@ class Flysystem implements AdapterInterface
      *
      * @param string $id
      * @param string $contents
-     *
      * @returns void
-     *
      * @throws AdapterException
      */
-
     public function save(string $id, string $contents): void
     {
 
@@ -76,12 +68,9 @@ class Flysystem implements AdapterInterface
      * Read contents of bucket.
      *
      * @param string $id
-     *
      * @return string
-     *
      * @throws AdapterException
      */
-
     public function read(string $id): string
     {
 
@@ -97,12 +86,9 @@ class Flysystem implements AdapterInterface
      * Delete bucket.
      *
      * @param string $id
-     *
      * @return void
-     *
      * @throws AdapterException
      */
-
     public function delete(string $id): void
     {
 
